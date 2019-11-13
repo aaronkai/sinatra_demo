@@ -2,11 +2,23 @@
   <head></head>
   <body>
     <p>
-      Try your luck! 
+      Try your luck! Guess the secret number (0-100)
     </p>
-    <p>
+<!--     <p>
       The SECRET NUMBER is <%= secret_number %>
-    </p>    
+    </p>     -->
+    
+    <form>
+      <input type='text' name='guess' />
+      <input type='submit' value='Guess!' />
+    </form>
+    
+    <p>
+      <%= message %>
+    </p>
+
+
+    
   </body>
 
   
