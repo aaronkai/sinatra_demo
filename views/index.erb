@@ -1,12 +1,18 @@
 <html>
   <head></head>
+  <style>
+    body {
+      background: <%= background_color %>;
+    }
+  </style>
   <body>
     <p>
       Try your luck! Guess the secret number (0-100)
     </p>
-<!--     <p>
-      The SECRET NUMBER is <%= secret_number %>
-    </p>     -->
+    <p>
+<!--       The SECRET NUMBER is <%= secret_number %> -->
+      Your last guess was <%= guess %>
+    </p>    
     
     <form>
       <input type='text' name='guess' />
