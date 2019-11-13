@@ -1,32 +1,48 @@
 require 'sinatra'
 require 'sinatra/reloader'
 
-SECRET_NUMBER ||= rand(100)
+@@secret_number ||= rand(100)
 background_color = 'white'
+@@guesses = 5
+message = "Try to Guess the Number"
 
 get '/' do
   guess = params["guess"]
   message = check_guess(guess)
-  erb :index, :locals => {:secret_number => SECRET_NUMBER, 
+  erb :index, :locals => {:secret_number => @@secret_number, 
                           :guess => guess,
                           :message => message,
-                          :background_color => background_color(guess)} 
+                          :background_color => background_color(guess),
+                          :guesses_remaining => @@guesses
+                          }
 end
 
 
 def check_guess(guess)
-  if guess.to_i > SECRET_NUMBER
-    message = "Too High!"
-  elsif guess.to_i < SECRET_NUMBER
-    message = "Too Low!"
+  if @@guesses == 0
+    message = "You ran out of guesses. Secret number was #{@@secret_number}. A new number has been generated."
+    background_color = 'white'
+    @@guesses = 5
+    @@secret_number = rand(100)
+    
   else
-    message = "You Got It Right!"
+    if guess.to_i > @@secret_number
+      message = "Too High!"
+      @@guesses -= 1
+    elsif guess.to_i < @@secret_number
+      message = "Too Low!"
+      @@guesses -= 1
+    else
+      message = "You Got It Right!"
+      @@guesses = 5
+      @@secret_number = rand(100)
+    end
   end
-  return message
+    return message
 end
 
 def background_color(guess)
-  difference = (guess.to_i - SECRET_NUMBER).abs
+  difference = (guess.to_i - @@secret_number).abs
   if difference > 10
     return "firebrick"
   elsif difference <= 10 && difference > 3
@@ -37,3 +53,4 @@ def background_color(guess)
     return 'royalBlue'
   end
 end
+
